@@ -34,6 +34,10 @@ body.menu-open {
   overflow: hidden;
 }
 
+body.modal-open {
+  overflow: hidden;
+}
+
 img {
   display: block;
   max-width: 100%;
@@ -755,6 +759,92 @@ h3 {
 
 .float-whatsapp {
   background: #1fa855;
+}
+
+.success-modal {
+  position: fixed;
+  inset: 0;
+  z-index: 180;
+  display: grid;
+  place-items: center;
+  padding: 18px;
+  visibility: hidden;
+  opacity: 0;
+  transition: opacity 220ms ease, visibility 220ms ease;
+}
+
+.success-modal.is-open {
+  visibility: visible;
+  opacity: 1;
+}
+
+.success-modal-backdrop {
+  position: absolute;
+  inset: 0;
+  background: rgba(4, 61, 50, 0.58);
+  backdrop-filter: blur(8px);
+}
+
+.success-modal-card {
+  position: relative;
+  z-index: 1;
+  width: min(100%, 470px);
+  padding: 30px;
+  text-align: center;
+  border: 1px solid rgba(255, 255, 255, 0.76);
+  border-radius: var(--radius);
+  background:
+    radial-gradient(circle at 90% 8%, rgba(244, 200, 74, 0.22), transparent 28%),
+    #ffffff;
+  box-shadow: 0 34px 90px rgba(16, 32, 29, 0.26);
+  transform: translateY(16px) scale(0.97);
+  transition: transform 220ms ease;
+}
+
+.success-modal.is-open .success-modal-card {
+  transform: translateY(0) scale(1);
+}
+
+.success-modal-close {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  display: grid;
+  place-items: center;
+  width: 36px;
+  height: 36px;
+  border: 1px solid var(--line);
+  border-radius: 999px;
+  color: var(--green-dark);
+  background: #ffffff;
+  cursor: pointer;
+  font-size: 1.35rem;
+  line-height: 1;
+}
+
+.success-modal-icon {
+  display: grid;
+  place-items: center;
+  width: 64px;
+  height: 64px;
+  margin: 0 auto 18px;
+  border-radius: 18px;
+  background: var(--green-soft);
+  font-size: 2rem;
+}
+
+.success-modal-card h2 {
+  font-size: clamp(1.8rem, 5vw, 2.65rem);
+}
+
+.success-modal-card p {
+  margin: 12px auto 0;
+  color: var(--muted);
+}
+
+.success-modal-card .btn {
+  width: 100%;
+  margin-top: 22px;
 }
 
 @media (prefers-reduced-motion: reduce) {

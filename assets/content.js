@@ -70,7 +70,9 @@ window.DUMargContent = {
     title: "Trusted PGs where your seniors have lived.",
     text: "Find safe, comfortable and verified PG accommodations near your college. Our team helps you connect with trusted options recommended by seniors.",
     submitText: "Submit",
-    successText: "\u{1F389} We got you covered!\nOur team will contact you shortly.",
+    successText: "\u{1F389} We got u covered!!\nOur team shall contact u shortly!!",
+    successWhatsappText: "Till then, join our WhatsApp community to stay updated.",
+    successWhatsappCta: "Join WhatsApp Community",
     missingConfigText: "Supabase is not connected yet. Please try again later.",
     errorText: "We could not submit your enquiry right now. Please try again in a moment.",
     fields: {

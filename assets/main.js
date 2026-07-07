@@ -147,6 +147,7 @@
         }
 
         note.textContent = data.accommodation.successText;
+        showAccommodationSuccess();
         form.reset();
         return;
       }
@@ -156,6 +157,7 @@
       }
 
       note.textContent = data.accommodation.successText;
+      showAccommodationSuccess();
       form.reset();
     } catch (error) {
       note.textContent = data.accommodation.errorText;
@@ -163,6 +165,16 @@
     } finally {
       submitButton.disabled = false;
     }
+  };
+
+  const showAccommodationSuccess = () => {
+    const modal = document.querySelector("[data-accommodation-success]");
+    if (!modal) return;
+
+    modal.classList.add("is-open");
+    modal.setAttribute("aria-hidden", "false");
+    document.body.classList.add("modal-open");
+    modal.querySelector("[data-modal-close]")?.focus();
   };
 
   const brand = () => `
@@ -298,6 +310,20 @@
   const floatingActions = () => `
     <div class="floating-actions" aria-label="Quick community links">
       <a class="float-btn float-whatsapp" href="${escapeHtml(data.links.whatsapp)}" target="_blank" rel="noopener" aria-label="Open WhatsApp community">WhatsApp</a>
+    </div>
+  `;
+
+  const accommodationSuccessModal = () => `
+    <div class="success-modal" data-accommodation-success aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="accommodationSuccessTitle">
+      <div class="success-modal-backdrop" data-modal-close></div>
+      <article class="success-modal-card">
+        <button class="success-modal-close" type="button" data-modal-close aria-label="Close success message">×</button>
+        <span class="success-modal-icon">🏠</span>
+        <h2 id="accommodationSuccessTitle">We got u covered!!</h2>
+        <p>Our team shall contact u shortly!!</p>
+        <p>${escapeHtml(data.accommodation.successWhatsappText)}</p>
+        <a class="btn btn-primary accommodation-highlight" href="${escapeHtml(data.links.whatsapp)}" target="_blank" rel="noopener">${escapeHtml(data.accommodation.successWhatsappCta)}</a>
+      </article>
     </div>
   `;
 
@@ -773,6 +799,7 @@
     ${header()}
     <main>${(pages[page] || pages.home)()}</main>
     ${floatingActions()}
+    ${accommodationSuccessModal()}
     ${footer()}
   `;
 
@@ -790,6 +817,25 @@
       navLinks.classList.remove("is-open");
       document.body.classList.remove("menu-open");
       menuToggle.setAttribute("aria-expanded", "false");
+    }
+  });
+
+  const closeAccommodationSuccess = () => {
+    const modal = document.querySelector("[data-accommodation-success]");
+    if (!modal) return;
+
+    modal.classList.remove("is-open");
+    modal.setAttribute("aria-hidden", "true");
+    document.body.classList.remove("modal-open");
+  };
+
+  document.querySelectorAll("[data-modal-close]").forEach((button) => {
+    button.addEventListener("click", closeAccommodationSuccess);
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeAccommodationSuccess();
     }
   });
 
