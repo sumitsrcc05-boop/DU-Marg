@@ -235,7 +235,7 @@
           <p>${escapeHtml(data.finalCta.text)}</p>
         </div>
         <div class="actions">
-          <a class="btn btn-primary" href="guidance.html">${escapeHtml(data.finalCta.primary)}</a>
+          <a class="btn btn-primary" href="accommodation.html">${escapeHtml(data.finalCta.primary)}</a>
           <a class="btn btn-secondary" href="community.html">${escapeHtml(data.finalCta.secondary)}</a>
         </div>
       </div>
@@ -255,7 +255,7 @@
           ${data.nav.map((item) => `
             <a class="${item.page === page ? "active" : ""}" href="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>
           `).join("")}
-          <a class="nav-cta ${page === "guidance" ? "active" : ""}" href="guidance.html">Book Guidance</a>
+          <a class="nav-cta ${page === "accommodation" ? "active" : ""}" href="accommodation.html">Accommodations</a>
         </div>
       </nav>
     </header>
@@ -273,7 +273,7 @@
           <div class="footer-links">
             <h3>Explore</h3>
             ${data.nav.map((item) => `<a href="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>`).join("")}
-            <a href="guidance.html">Book Guidance</a>
+            <a href="accommodation.html">Accommodations</a>
           </div>
           <div class="footer-links">
             <h3>Connect</h3>
@@ -346,7 +346,7 @@
             <p>${escapeHtml(home.hero.text)}</p>
             ${badgeStrip()}
             <div class="actions">
-              <a class="btn btn-primary" href="guidance.html">${escapeHtml(home.hero.primaryCta)}</a>
+              <a class="btn btn-primary accommodation-highlight" href="accommodation.html">${escapeHtml(home.hero.primaryCta)}</a>
               <a class="btn btn-secondary" href="toolkit.html">${escapeHtml(home.hero.secondaryCta)}</a>
             </div>
             <div class="stat-grid">

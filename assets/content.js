@@ -62,8 +62,8 @@ window.DUMargContent = {
   },
   finalCta: {
     title: "Ready to make your next DU decision easier?",
-    text: "Explore resources, join the community, or book a personal guidance session with DU Marg.",
-    primary: "Book Guidance",
+    text: "Explore resources, find student accommodation, or join the DU Marg community.",
+    primary: "Accommodations",
     secondary: "Join Community"
   },
   accommodation: {
@@ -142,7 +142,7 @@ window.DUMargContent = {
       eyebrow: "Delhi University guidance, simplified",
       title: "Find your way through DU admissions and college life.",
       text: "DU Marg helps Delhi University aspirants and students choose smarter, prepare better, and feel less lost from CUET to campus life.",
-      primaryCta: "Book Guidance",
+      primaryCta: "Accommodations",
       secondaryCta: "Explore Toolkit",
       badge: "North Campus context. Student-first clarity.",
       stats: [
