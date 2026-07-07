@@ -76,12 +76,14 @@ window.DUMargContent = {
     fields: {
       name: "Name",
       gender: "Gender",
-      phone: "Phone Number",
+      phone: "Phone Number (WhatsApp preferably)",
       college: "College Name",
+      campus: "Campus",
       budget: "Monthly Budget",
       additional: "Anything Else"
     },
     genderOptions: ["Female", "Male", "Other", "Prefer not to say"],
+    campusOptions: ["North Campus", "South Campus", "Off Campus"],
     gallery: [
       { src: "https://www.expats.cz/images/publishing/articles/2024/09/840/uhk-dorm-dorms-university-hradec-kralova-kralove-02024-dorms-inside-2-ypuiz.webp", alt: "Clean bright shared PG style room with two beds" },
       { src: "https://www.expats.cz/images/publishing/articles/2024/09/840/uhk-university-hradec-kralove-kralove-092024-dsc065962-ucxng.webp", alt: "Well lit maintained student accommodation room" },

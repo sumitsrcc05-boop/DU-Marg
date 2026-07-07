@@ -74,6 +74,7 @@
       { name: "gender", label: "your gender" },
       { name: "phone", label: "your phone number" },
       { name: "college", label: "your college name" },
+      { name: "campus", label: "your campus preference" },
       { name: "budget", label: "your monthly budget" }
     ];
 
@@ -95,13 +96,20 @@
       return;
     }
 
+    const campusValue = String(formData.get("campus") || "").trim();
+    const additionalValue = String(formData.get("additional") || "").trim();
+    const combinedAdditional = additionalValue
+      ? `Campus: ${campusValue}\n${additionalValue}`
+      : `Campus: ${campusValue}`;
+
     const payload = {
       name: String(formData.get("name") || "").trim(),
       gender: String(formData.get("gender") || "").trim(),
       phone_number: String(formData.get("phone") || "").trim(),
       college_name: String(formData.get("college") || "").trim(),
+      campus: campusValue,
       monthly_budget: String(formData.get("budget") || "").trim(),
-      additional_requirements: String(formData.get("additional") || "").trim()
+      additional_requirements: combinedAdditional
     };
 
     submitButton.disabled = true;
@@ -119,6 +127,29 @@
         },
         body: JSON.stringify(payload)
       });
+
+      if (!response.ok && response.status === 400) {
+        const fallbackPayload = { ...payload };
+        delete fallbackPayload.campus;
+        const fallbackResponse = await fetch(`${supabase.url.replace(/\/$/, "")}/rest/v1/${table}`, {
+          method: "POST",
+          headers: {
+            apikey: supabase.anonKey,
+            Authorization: `Bearer ${supabase.anonKey}`,
+            "Content-Type": "application/json",
+            Prefer: "return=minimal"
+          },
+          body: JSON.stringify(fallbackPayload)
+        });
+
+        if (!fallbackResponse.ok) {
+          throw new Error(`Supabase insert failed with ${fallbackResponse.status}`);
+        }
+
+        note.textContent = data.accommodation.successText;
+        form.reset();
+        return;
+      }
 
       if (!response.ok) {
         throw new Error(`Supabase insert failed with ${response.status}`);
@@ -618,6 +649,13 @@
       <label>
         ${escapeHtml(data.accommodation.fields.college)}
         <input type="text" name="college" placeholder="Your college name" required>
+      </label>
+      <label>
+        ${escapeHtml(data.accommodation.fields.campus)}
+        <select name="campus" required>
+          <option value="">Select campus</option>
+          ${data.accommodation.campusOptions.map((option) => `<option>${escapeHtml(option)}</option>`).join("")}
+        </select>
       </label>
       <label>
         ${escapeHtml(data.accommodation.fields.budget)}

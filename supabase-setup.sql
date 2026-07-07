@@ -25,10 +25,14 @@ create table if not exists public.accommodation_enquiries (
   gender text not null,
   phone_number text not null,
   college_name text not null,
+  campus text,
   monthly_budget text not null,
   additional_requirements text,
   created_at timestamptz not null default now()
 );
+
+alter table public.accommodation_enquiries
+add column if not exists campus text;
 
 alter table public.accommodation_enquiries enable row level security;
 
