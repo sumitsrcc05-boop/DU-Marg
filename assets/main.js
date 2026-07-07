@@ -64,6 +64,76 @@
     }
   };
 
+  const submitAccommodation = async (form) => {
+    const note = form.querySelector(".form-note");
+    const submitButton = form.querySelector("button[type='submit']");
+    const formData = new FormData(form);
+    const supabase = data.supabase || {};
+    const requiredFields = [
+      { name: "name", label: "your name" },
+      { name: "gender", label: "your gender" },
+      { name: "phone", label: "your phone number" },
+      { name: "college", label: "your college name" },
+      { name: "budget", label: "your monthly budget" }
+    ];
+
+    note.classList.remove("error");
+
+    for (const field of requiredFields) {
+      const value = String(formData.get(field.name) || "").trim();
+      if (!value) {
+        note.textContent = `Please enter ${field.label}.`;
+        note.classList.add("error");
+        form.querySelector(`[name='${field.name}']`)?.focus();
+        return;
+      }
+    }
+
+    if (!supabase.url || !supabase.anonKey) {
+      note.textContent = data.accommodation.missingConfigText;
+      note.classList.add("error");
+      return;
+    }
+
+    const payload = {
+      name: String(formData.get("name") || "").trim(),
+      gender: String(formData.get("gender") || "").trim(),
+      phone_number: String(formData.get("phone") || "").trim(),
+      college_name: String(formData.get("college") || "").trim(),
+      monthly_budget: String(formData.get("budget") || "").trim(),
+      additional_requirements: String(formData.get("additional") || "").trim()
+    };
+
+    submitButton.disabled = true;
+    note.textContent = "Submitting...";
+
+    try {
+      const table = supabase.accommodationTable || "accommodation_enquiries";
+      const response = await fetch(`${supabase.url.replace(/\/$/, "")}/rest/v1/${table}`, {
+        method: "POST",
+        headers: {
+          apikey: supabase.anonKey,
+          Authorization: `Bearer ${supabase.anonKey}`,
+          "Content-Type": "application/json",
+          Prefer: "return=minimal"
+        },
+        body: JSON.stringify(payload)
+      });
+
+      if (!response.ok) {
+        throw new Error(`Supabase insert failed with ${response.status}`);
+      }
+
+      note.textContent = data.accommodation.successText;
+      form.reset();
+    } catch (error) {
+      note.textContent = data.accommodation.errorText;
+      note.classList.add("error");
+    } finally {
+      submitButton.disabled = false;
+    }
+  };
+
   const brand = () => `
     <a class="brand" href="index.html" aria-label="${escapeHtml(data.brand.name)} home">
       <span class="brand-mark">${escapeHtml(data.brand.mark)}</span>
@@ -79,6 +149,66 @@
       </div>
       <p>${escapeHtml(text)}</p>
     </div>
+  `;
+
+  const badgeStrip = (items = data.badges) => `
+    <div class="badge-strip" aria-label="Trust badges">
+      ${items.map((item) => `<span>${escapeHtml(item)}</span>`).join("")}
+    </div>
+  `;
+
+  const metricBand = () => `
+    <section class="metric-band" aria-label="DU Marg trust metrics">
+      <div class="section-inner metric-grid">
+        ${data.metrics.map((metric) => `
+          <article class="metric-card">
+            <strong><span class="metric-value" data-count="${escapeHtml(metric.value)}">${escapeHtml(metric.value)}</span>${escapeHtml(metric.suffix)}</strong>
+            <span>${escapeHtml(metric.label)}</span>
+          </article>
+        `).join("")}
+      </div>
+    </section>
+  `;
+
+  const successStories = () => `
+    <section>
+      <div class="section-inner">
+        ${sectionHead(data.successStories)}
+        <div class="cards-3 success-grid">${data.successStories.items.map(card).join("")}</div>
+      </div>
+    </section>
+  `;
+
+  const faqSection = () => `
+    <section class="section-white">
+      <div class="section-inner">
+        ${sectionHead(data.faq)}
+        <div class="faq-grid">
+          ${data.faq.items.map((item) => `
+            <details class="faq-item">
+              <summary>${escapeHtml(item.question)}</summary>
+              <p>${escapeHtml(item.answer)}</p>
+            </details>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+  `;
+
+  const exploreCta = () => `
+    <section>
+      <div class="section-inner premium-cta">
+        <div>
+          <p class="eyebrow">Next Step</p>
+          <h2>${escapeHtml(data.finalCta.title)}</h2>
+          <p>${escapeHtml(data.finalCta.text)}</p>
+        </div>
+        <div class="actions">
+          <a class="btn btn-primary" href="guidance.html">${escapeHtml(data.finalCta.primary)}</a>
+          <a class="btn btn-secondary" href="community.html">${escapeHtml(data.finalCta.secondary)}</a>
+        </div>
+      </div>
+    </section>
   `;
 
   const header = () => `
@@ -103,8 +233,29 @@
   const footer = () => `
     <footer class="site-footer">
       <div class="footer-inner">
-        ${brand()}
-        <p>${escapeHtml(data.brand.footerText)}</p>
+        <div class="footer-main">
+          <div>
+            ${brand()}
+            <p>${escapeHtml(data.brand.footerText)}</p>
+            ${badgeStrip(["Verified", "Trusted", "Student Friendly"])}
+          </div>
+          <div class="footer-links">
+            <h3>Explore</h3>
+            ${data.nav.map((item) => `<a href="${escapeHtml(item.href)}">${escapeHtml(item.label)}</a>`).join("")}
+            <a href="guidance.html">Book Guidance</a>
+          </div>
+          <div class="footer-links">
+            <h3>Connect</h3>
+            <div class="footer-social">
+              <a href="${escapeHtml(linkFor("whatsapp"))}" target="_blank" rel="noopener" aria-label="WhatsApp">WA</a>
+              <a href="${escapeHtml(linkFor("instagram"))}" target="_blank" rel="noopener" aria-label="Instagram">IG</a>
+              <a href="${escapeHtml(linkFor("email"))}" aria-label="Email">@</a>
+            </div>
+            <a href="${escapeHtml(linkFor("whatsapp"))}" target="_blank" rel="noopener">WhatsApp</a>
+            <a href="${escapeHtml(linkFor("instagram"))}" target="_blank" rel="noopener">Instagram</a>
+            <a href="${escapeHtml(linkFor("email"))}">${escapeHtml(data.links.email)}</a>
+          </div>
+        </div>
         <p class="credits">
           Campus imagery credits:
           ${data.credits.map((credit) => `<a href="${escapeHtml(credit.url)}" target="_blank" rel="noopener">${escapeHtml(credit.label)}</a>`).join(", ")}.
@@ -116,13 +267,12 @@
   const floatingActions = () => `
     <div class="floating-actions" aria-label="Quick community links">
       <a class="float-btn float-whatsapp" href="${escapeHtml(data.links.whatsapp)}" target="_blank" rel="noopener" aria-label="Open WhatsApp community">WhatsApp</a>
-      <a class="float-btn float-telegram" href="${escapeHtml(data.links.telegram)}" target="_blank" rel="noopener" aria-label="Open Telegram community">Telegram</a>
     </div>
   `;
 
   const card = (item, index) => `
     <article class="card">
-      <span class="card-index">${String(index + 1).padStart(2, "0")}</span>
+      <span class="${item.icon ? "card-icon" : "card-index"}">${item.icon ? escapeHtml(item.icon) : String(index + 1).padStart(2, "0")}</span>
       <h3>${escapeHtml(item.title)}</h3>
       <p>${escapeHtml(item.text)}</p>
     </article>
@@ -163,6 +313,7 @@
             <p class="eyebrow">${escapeHtml(home.hero.eyebrow)}</p>
             <h1>${escapeHtml(home.hero.title)}</h1>
             <p>${escapeHtml(home.hero.text)}</p>
+            ${badgeStrip()}
             <div class="actions">
               <a class="btn btn-primary" href="guidance.html">${escapeHtml(home.hero.primaryCta)}</a>
               <a class="btn btn-secondary" href="toolkit.html">${escapeHtml(home.hero.secondaryCta)}</a>
@@ -182,6 +333,8 @@
           </figure>
         </div>
       </section>
+
+      ${metricBand()}
 
       <section class="section-white">
         <div class="section-inner">
@@ -212,6 +365,8 @@
         </div>
       </section>
 
+      ${successStories()}
+
       <section class="reviews">
         <div class="section-inner">
           ${sectionHead(home.reviews)}
@@ -220,6 +375,10 @@
           <div class="review-track">
             ${[...home.reviews.items, ...home.reviews.items].map((review) => `
               <article class="review-card">
+                <div class="review-top">
+                  <span class="review-avatar">${escapeHtml(review.name.charAt(0))}</span>
+                  <span class="stars">★★★★★</span>
+                </div>
                 <p>"${escapeHtml(review.quote)}"</p>
                 <strong>${escapeHtml(review.name)}</strong>
                 <span>${escapeHtml(review.detail)}</span>
@@ -228,6 +387,8 @@
           </div>
         </div>
       </section>
+      ${faqSection()}
+      ${exploreCta()}
     `;
   };
 
@@ -240,6 +401,7 @@
             <p class="eyebrow">${escapeHtml(about.eyebrow)}</p>
             <h1>${escapeHtml(about.title)}</h1>
             <p>${escapeHtml(about.intro)}</p>
+            ${badgeStrip(["Student-led", "Context-first", "Practical"])}
           </div>
           <figure class="image-panel">
             <img src="${escapeHtml(data.images.miranda)}" alt="Hindu College at Delhi University">
@@ -302,6 +464,8 @@
           <div class="cards-3">${about.different.items.map(card).join("")}</div>
         </div>
       </section>
+      ${metricBand()}
+      ${exploreCta()}
     `;
   };
 
@@ -312,6 +476,7 @@
           <p class="eyebrow">${escapeHtml(data.toolkit.eyebrow)}</p>
           <h1>${escapeHtml(data.toolkit.title)}</h1>
           <p>${escapeHtml(data.toolkit.text)}</p>
+          ${badgeStrip(["Editable Resources", "Student Friendly", "Actionable"])}
         </div>
         <figure class="image-panel">
           <img src="${escapeHtml(data.images.daulatRam)}" alt="Hansraj College at Delhi University">
@@ -344,6 +509,8 @@
         ${guidanceForm()}
       </div>
     </section>
+    ${faqSection()}
+    ${exploreCta()}
   `;
 
   const renderCommunity = () => `
@@ -353,6 +520,7 @@
           <p class="eyebrow">${escapeHtml(data.community.eyebrow)}</p>
           <h1>${escapeHtml(data.community.title)}</h1>
           <p>${escapeHtml(data.community.text)}</p>
+          ${badgeStrip(["Updates", "Peer Support", "Resource Drops"])}
         </div>
         <figure class="image-panel">
           <img src="${escapeHtml(data.images.campus)}" alt="Delhi University campus greenery">
@@ -394,6 +562,8 @@
         </div>
       </div>
     </section>
+    ${metricBand()}
+    ${exploreCta()}
   `;
 
   const renderGuidance = () => `
@@ -403,6 +573,7 @@
           <p class="eyebrow">${escapeHtml(data.guidance.eyebrow)}</p>
           <h1>${escapeHtml(data.guidance.title)}</h1>
           <p>${escapeHtml(data.guidance.text)}</p>
+          ${badgeStrip(["Personal Plan", "Clear Tradeoffs", "No Pressure"])}
           <ul class="check-list">
             ${data.guidance.points.map((point) => `<li>${escapeHtml(point)}</li>`).join("")}
           </ul>
@@ -423,6 +594,110 @@
         ${guidanceForm()}
       </div>
     </section>
+    ${successStories()}
+    ${faqSection()}
+  `;
+
+  const accommodationForm = () => `
+    <form class="lead-form accommodation-form" data-accommodation-form novalidate>
+      <label>
+        ${escapeHtml(data.accommodation.fields.name)}
+        <input type="text" name="name" placeholder="Your name" required>
+      </label>
+      <label>
+        ${escapeHtml(data.accommodation.fields.gender)}
+        <select name="gender" required>
+          <option value="">Select gender</option>
+          ${data.accommodation.genderOptions.map((option) => `<option>${escapeHtml(option)}</option>`).join("")}
+        </select>
+      </label>
+      <label>
+        ${escapeHtml(data.accommodation.fields.phone)}
+        <input type="tel" name="phone" placeholder="+91 98765 43210" required>
+      </label>
+      <label>
+        ${escapeHtml(data.accommodation.fields.college)}
+        <input type="text" name="college" placeholder="Your college name" required>
+      </label>
+      <label>
+        ${escapeHtml(data.accommodation.fields.budget)}
+        <input type="text" name="budget" placeholder="Example: ₹12,000 - ₹18,000" required>
+      </label>
+      <label class="form-full">
+        ${escapeHtml(data.accommodation.fields.additional)}
+        <textarea name="additional" placeholder="Mention any preferences or requirements"></textarea>
+      </label>
+      <button class="btn btn-primary form-full" type="submit">${escapeHtml(data.accommodation.submitText)}</button>
+      <p class="form-note form-full" aria-live="polite"></p>
+    </form>
+  `;
+
+  const iconCard = (item) => `
+    <article class="card icon-card">
+      <span class="amenity-icon">${escapeHtml(item.icon)}</span>
+      <h3>${escapeHtml(item.title)}</h3>
+      <p>${escapeHtml(item.text)}</p>
+    </article>
+  `;
+
+  const renderAccommodation = () => `
+    <section class="page-hero accommodation-hero">
+      <div class="section-inner accommodation-intro">
+        <p class="eyebrow">Accommodation</p>
+        <h1>${escapeHtml(data.accommodation.title)}</h1>
+        <p>${escapeHtml(data.accommodation.text)}</p>
+        ${badgeStrip(["Verified PGs", "No Brokerage", "Senior Recommended"])}
+        ${accommodationForm()}
+      </div>
+    </section>
+
+    <section class="section-white">
+      <div class="section-inner">
+        <div class="accommodation-gallery">
+          ${data.accommodation.gallery.map((image) => `
+            <figure class="pg-image">
+              <img src="${escapeHtml(image.src)}" alt="${escapeHtml(image.alt)}">
+            </figure>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-inner">
+        ${sectionHead(data.accommodation.why)}
+        <div class="cards-3">${data.accommodation.why.items.map(card).join("")}</div>
+      </div>
+    </section>
+
+    <section class="section-white">
+      <div class="section-inner">
+        ${sectionHead(data.accommodation.amenities)}
+        <div class="amenities-grid">${data.accommodation.amenities.items.map(iconCard).join("")}</div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-inner">
+        ${sectionHead(data.accommodation.howItWorks)}
+        <div class="process-grid">
+          ${data.accommodation.howItWorks.items.map((item, index) => `
+            <article class="process-card">
+              <span>${String(index + 1).padStart(2, "0")}</span>
+              <h3>${escapeHtml(item.title)}</h3>
+              <p>${escapeHtml(item.text)}</p>
+            </article>
+          `).join("")}
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="section-inner accommodation-cta">
+        <h2>${escapeHtml(data.accommodation.cta.title)}</h2>
+        <p>${escapeHtml(data.accommodation.cta.text)}</p>
+      </div>
+    </section>
   `;
 
   const pages = {
@@ -430,10 +705,12 @@
     about: renderAbout,
     toolkit: renderToolkit,
     community: renderCommunity,
-    guidance: renderGuidance
+    guidance: renderGuidance,
+    accommodation: renderAccommodation
   };
 
   document.querySelector("#site").innerHTML = `
+    <div class="page-loader" aria-hidden="true"><span>DU</span></div>
     ${header()}
     <main>${(pages[page] || pages.home)()}</main>
     ${floatingActions()}
@@ -463,4 +740,53 @@
       submitLead(form);
     });
   });
+
+  document.querySelectorAll("[data-accommodation-form]").forEach((form) => {
+    form.addEventListener("submit", (event) => {
+      event.preventDefault();
+      submitAccommodation(form);
+    });
+  });
+
+  const revealItems = document.querySelectorAll("main section, .card, .tool-card, .community-card, .contact-card, .metric-card, .pg-image, .faq-item, .process-card");
+  revealItems.forEach((item) => item.classList.add("reveal"));
+
+  if ("IntersectionObserver" in window) {
+    const observer = new IntersectionObserver((entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("is-visible");
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.12 });
+
+    revealItems.forEach((item) => observer.observe(item));
+  } else {
+    revealItems.forEach((item) => item.classList.add("is-visible"));
+  }
+
+  const animateCounters = () => {
+    document.querySelectorAll(".metric-value").forEach((element) => {
+      const target = Number(element.dataset.count || "0");
+      const hasDecimal = !Number.isInteger(target);
+      const start = performance.now();
+      const duration = 1200;
+
+      const tick = (now) => {
+        const progress = Math.min((now - start) / duration, 1);
+        const eased = 1 - Math.pow(1 - progress, 3);
+        const value = target * eased;
+        element.textContent = hasDecimal ? value.toFixed(1) : String(Math.round(value));
+        if (progress < 1) requestAnimationFrame(tick);
+      };
+
+      requestAnimationFrame(tick);
+    });
+  };
+
+  setTimeout(() => {
+    document.body.classList.add("page-ready");
+    animateCounters();
+  }, 120);
 })();

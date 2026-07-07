@@ -6,8 +6,7 @@ window.DUMargContent = {
     footerText: "DU Marg helps aspirants and students navigate admissions, college choices, societies, internships, academics, and campus life with practical student-first guidance."
   },
   links: {
-    whatsapp: "https://wa.me/910000000000",
-    telegram: "https://t.me/dumarg",
+    whatsapp: "https://chat.whatsapp.com/Bhyl75yA2RZDjOieqFx2cy",
     email: "margdu3@gmail.com",
     phone: "+91 76528 40273",
     instagram: "https://www.instagram.com/du_marg/"
@@ -15,12 +14,14 @@ window.DUMargContent = {
   supabase: {
     url: "https://srnfkyhxlarzowdcpxmr.supabase.co",
     anonKey: "sb_publishable_AJQFZTwC1zgHH6_NG5I63w_8W8bf-e2",
-    table: "guidance_leads"
+    table: "guidance_leads",
+    accommodationTable: "accommodation_enquiries"
   },
   nav: [
     { label: "Home", href: "index.html", page: "home" },
     { label: "About Us", href: "about.html", page: "about" },
     { label: "Student Toolkit", href: "toolkit.html", page: "toolkit" },
+    { label: "Accommodation", href: "accommodation.html", page: "accommodation" },
     { label: "Join Community", href: "community.html", page: "community" }
   ],
   images: {
@@ -30,6 +31,109 @@ window.DUMargContent = {
     miranda: "https://commons.wikimedia.org/wiki/Special:FilePath/Hindu%20College%20%28Front%29.jpg?width=1200",
     daulatRam: "https://www.hansrajcollege.ac.in/hCPanel/uploads/banner/1.jpg",
     sports: "https://commons.wikimedia.org/wiki/Special:FilePath/A%20portion%20of%20the%20Delhi%20University%20Sports%20Complex%20pictured%20from%20Cluster%20Innovation%20Centre.jpg?width=1400"
+  },
+  metrics: [
+    { value: 12000, suffix: "+", label: "DU aspirants reached" },
+    { value: 50, suffix: "+", label: "college and course scenarios covered" },
+    { value: 4.9, suffix: "/5", label: "student guidance rating" },
+    { value: 0, suffix: " brokerage", label: "for accommodation help" }
+  ],
+  badges: ["Verified", "Trusted", "Student Friendly", "No Hidden Charges"],
+  successStories: {
+    eyebrow: "Success Stories",
+    title: "Small decisions, bigger confidence.",
+    text: "Students use DU Marg to make clearer choices before admission, during allotments, and after entering campus.",
+    items: [
+      { title: "Preference list clarity", text: "A CUET aspirant rebuilt her preference order using course fit, commute, and campus goals instead of copying a generic ranking." },
+      { title: "Society season confidence", text: "A first-year student shortlisted societies, prepared answers, and walked into interviews with a simple plan." },
+      { title: "First internship direction", text: "A DU student converted scattered interests into a resume, LinkedIn checklist, and outreach plan." }
+    ]
+  },
+  faq: {
+    eyebrow: "FAQs",
+    title: "Questions students ask before trusting a platform.",
+    text: "Short answers for the decisions that usually create the most uncertainty.",
+    items: [
+      { question: "Is DU Marg only for aspirants?", answer: "No. DU Marg supports aspirants and current students across admissions, societies, academics, internships, accommodation, and early career choices." },
+      { question: "Can I book personal guidance?", answer: "Yes. Use the Book Guidance form and the team will get back to you with next steps." },
+      { question: "Are community links official DU links?", answer: "No. They are DU Marg student communities for updates, peer support, and resources." },
+      { question: "Can the resources be updated later?", answer: "Yes. The website is built from editable shared content, so text, cards, links, reviews, and resources can be changed easily." }
+    ]
+  },
+  finalCta: {
+    title: "Ready to make your next DU decision easier?",
+    text: "Explore resources, join the community, or book a personal guidance session with DU Marg.",
+    primary: "Book Guidance",
+    secondary: "Join Community"
+  },
+  accommodation: {
+    title: "Trusted PGs where your seniors have lived.",
+    text: "Find safe, comfortable and verified PG accommodations near your college. Our team helps you connect with trusted options recommended by seniors.",
+    submitText: "Submit",
+    successText: "\u{1F389} We got you covered!\nOur team will contact you shortly.",
+    missingConfigText: "Supabase is not connected yet. Please try again later.",
+    errorText: "We could not submit your enquiry right now. Please try again in a moment.",
+    fields: {
+      name: "Name",
+      gender: "Gender",
+      phone: "Phone Number",
+      college: "College Name",
+      budget: "Monthly Budget",
+      additional: "Anything Else"
+    },
+    genderOptions: ["Female", "Male", "Other", "Prefer not to say"],
+    gallery: [
+      { src: "https://www.expats.cz/images/publishing/articles/2024/09/840/uhk-dorm-dorms-university-hradec-kralova-kralove-02024-dorms-inside-2-ypuiz.webp", alt: "Clean bright shared PG style room with two beds" },
+      { src: "https://www.expats.cz/images/publishing/articles/2024/09/840/uhk-university-hradec-kralove-kralove-092024-dsc065962-ucxng.webp", alt: "Well lit maintained student accommodation room" },
+      { src: "https://www.expats.cz/images/publishing/articles/2024/09/840/uhk-university-hradec-kralove-kralove-092024-dsc066282-qfefe.webp", alt: "Modern clean shared student room" },
+      { src: "https://www.expats.cz/images/publishing/articles/2024/09/840/uhk-dorm-dorms-university-hradec-kralova-kralove-02024-dorms-inside-4-tpnth.webp", alt: "Neat twin sharing PG room with good lighting" }
+    ],
+    why: {
+      eyebrow: "Why Choose Us",
+      title: "Why Choose Us",
+      text: "We aim to make finding a PG simple, transparent and stress free by connecting students with trusted accommodations.",
+      items: [
+        { icon: "\u{2713}", title: "Verified PGs", text: "Every PG is verified through trusted sources." },
+        { icon: "\u{20B9}", title: "No Brokerage", text: "No brokerage charges for students." },
+        { icon: "\u{1F4CD}", title: "Visit Before Moving In", text: "Visit the property before making a decision." },
+        { icon: "\u{260E}", title: "Personal Assistance", text: "Our team helps you throughout the process." },
+        { icon: "\u{1F512}", title: "Safe and Secure", text: "Recommended accommodations prioritize safety and comfort." },
+        { icon: "\u{2139}", title: "Transparent Information", text: "Clear details with no hidden surprises." }
+      ]
+    },
+    amenities: {
+      eyebrow: "Amenities",
+      title: "Amenities",
+      text: "Most recommended PGs offer these facilities to ensure a comfortable student life.",
+      items: [
+        { icon: "\u{1F6CF}", title: "Comfortable Rooms", text: "Spacious and well maintained rooms for students." },
+        { icon: "\u{1F372}", title: "Healthy Meals", text: "Fresh and hygienic home style food." },
+        { icon: "\u{1F4F6}", title: "High Speed WiFi", text: "Reliable internet for classes and entertainment." },
+        { icon: "\u{1F9FA}", title: "Laundry Service", text: "Regular washing facilities for your convenience." },
+        { icon: "\u{1F9F9}", title: "Daily Cleaning", text: "Clean rooms and common areas every day." },
+        { icon: "\u{1F6E1}", title: "24×7 Safety", text: "Security measures to ensure peace of mind." },
+        { icon: "\u{1F6B6}", title: "Walking Distance from College", text: "Easy commute to save both time and money." },
+        { icon: "\u{1F50B}", title: "Power Backup", text: "Uninterrupted electricity during power cuts." },
+        { icon: "\u{1F4A7}", title: "RO Drinking Water", text: "Safe and clean drinking water." },
+        { icon: "\u{1F4F9}", title: "CCTV Security", text: "Monitored premises for added safety." }
+      ]
+    },
+    howItWorks: {
+      eyebrow: "How It Works",
+      title: "From form to move-in, without the confusion.",
+      text: "A simple support flow for students and parents looking for trusted PG options.",
+      items: [
+        { title: "Fill the Form", text: "Share your college, budget, and basic preferences." },
+        { title: "We Contact You", text: "Our team understands your needs and location priorities." },
+        { title: "Get PG Recommendations", text: "Receive suitable options from trusted sources." },
+        { title: "Visit the PG", text: "See the property before making a decision." },
+        { title: "Move In", text: "Finalize confidently with clear details." }
+      ]
+    },
+    cta: {
+      title: "Looking for the Right PG?",
+      text: "Fill out the form above and our team will help you find a suitable accommodation based on your budget, college and preferences."
+    }
   },
   home: {
     hero: {
@@ -143,7 +247,7 @@ window.DUMargContent = {
   },
   toolkit: {
     eyebrow: "Student Toolkit",
-    title: "Helpful DU resources launching soon.",
+    title: "Helpful DU resources.",
     text: "These resources are designed to help students make better decisions at every stage. Edit titles, descriptions, statuses, and links in this content file.",
     items: [
       { title: "Preference Sheet Guide", text: "A step-by-step framework for filling college and course preferences.", status: "Join WhatsApp Community", url: "#" },
@@ -165,7 +269,6 @@ window.DUMargContent = {
     title: "Stay close to updates, peers, and timely guidance.",
     text: "Join DU Marg communities for admission reminders, campus conversations, and student-friendly resources.",
     items: [
-      { title: "Telegram Community", text: "Fast updates, admission alerts, resources, and DU discussion threads.", icon: "TG", linkKey: "telegram", cta: "Join Telegram" },
       { title: "WhatsApp Community", text: "Timely reminders, peer support, and session announcements in one place.", icon: "WA", linkKey: "whatsapp", cta: "Join WhatsApp" }
     ],
     contact: {
