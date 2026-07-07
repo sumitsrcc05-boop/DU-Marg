@@ -338,6 +338,16 @@
   const renderHome = () => {
     const home = data.home;
     return `
+      <section class="accommodation-alert" aria-label="Accommodation highlight">
+        <div class="section-inner accommodation-alert-inner">
+          <div>
+            <span class="alert-badge">Hot</span>
+            <h2>${escapeHtml(home.accommodationBanner.title)}</h2>
+          </div>
+          <a class="btn btn-primary accommodation-highlight" href="accommodation.html">${escapeHtml(home.accommodationBanner.cta)}</a>
+        </div>
+      </section>
+
       <section class="hero" aria-label="Hero Section">
         <div class="section-inner hero-grid">
           <div class="hero-copy">
@@ -416,6 +426,17 @@
               </article>
             `).join("")}
           </div>
+        </div>
+      </section>
+
+      <section class="home-accommodation-cta">
+        <div class="section-inner home-accommodation-cta-inner">
+          <div>
+            <span class="alert-badge">PG Help</span>
+            <h2>${escapeHtml(home.accommodationCta.title)}</h2>
+            <p>${escapeHtml(home.accommodationCta.text)}</p>
+          </div>
+          <a class="btn btn-primary accommodation-highlight" href="accommodation.html">${escapeHtml(home.accommodationCta.cta)}</a>
         </div>
       </section>
       ${faqSection()}

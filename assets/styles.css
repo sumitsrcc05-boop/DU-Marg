@@ -273,6 +273,61 @@ h3 {
   background: #ffffff;
 }
 
+.accommodation-alert {
+  padding: 20px 0;
+  background: linear-gradient(135deg, var(--green-dark), var(--green));
+}
+
+.accommodation-alert::before {
+  display: none;
+}
+
+.accommodation-alert-inner,
+.home-accommodation-cta-inner {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto;
+  gap: 20px;
+  align-items: center;
+}
+
+.accommodation-alert h2,
+.home-accommodation-cta h2 {
+  max-width: 850px;
+  color: #ffffff;
+  font-size: clamp(1.45rem, 3vw, 2.6rem);
+}
+
+.alert-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  margin-bottom: 8px;
+  padding: 6px 10px;
+  color: var(--green-dark);
+  border-radius: 999px;
+  background: var(--yellow);
+  font-size: 0.76rem;
+  font-weight: 950;
+  text-transform: uppercase;
+}
+
+.alert-badge::before {
+  content: "🏠";
+}
+
+.home-accommodation-cta {
+  background:
+    radial-gradient(circle at 88% 12%, rgba(244, 200, 74, 0.28), transparent 24%),
+    linear-gradient(135deg, #063f34, #0c8d71);
+}
+
+.home-accommodation-cta p {
+  max-width: 720px;
+  margin: 14px 0 0;
+  color: rgba(255, 255, 255, 0.82);
+  font-size: 1.08rem;
+}
+
 .text-link {
   color: var(--green-dark);
   font-weight: 900;
@@ -1162,7 +1217,7 @@ h2 {
 }
 
 .accommodation-highlight::after {
-  content: "Popular";
+  content: "🔥 Popular";
   position: absolute;
   top: -14px;
   right: 12px;
@@ -1481,6 +1536,8 @@ h2 {
     grid-template-columns: repeat(2, minmax(0, 1fr));
   }
 
+  .accommodation-alert-inner,
+  .home-accommodation-cta-inner,
   .premium-cta,
   .accommodation-cta,
   .footer-main {
@@ -1507,5 +1564,17 @@ h2 {
   .premium-cta,
   .accommodation-cta {
     padding: 24px;
+  }
+
+  .accommodation-alert {
+    padding: 16px 0;
+  }
+
+  .accommodation-alert .btn,
+  .home-accommodation-cta .btn,
+  .hero-copy .accommodation-highlight {
+    width: 100%;
+    min-height: 56px;
+    font-size: 1rem;
   }
 }

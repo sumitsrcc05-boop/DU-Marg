@@ -55,7 +55,7 @@ window.DUMargContent = {
     text: "Short answers for the decisions that usually create the most uncertainty.",
     items: [
       { question: "Is DU Marg only for aspirants?", answer: "No. DU Marg supports aspirants and current students across admissions, societies, academics, internships, accommodation, and early career choices." },
-      { question: "Can I book personal guidance?", answer: "Yes. Use the Book Guidance form and the team will get back to you with next steps." },
+      { question: "Can I get personal guidance?", answer: "Yes. Use the personal guidance form and the team will get back to you with next steps." },
       { question: "Are community links official DU links?", answer: "No. They are DU Marg student communities for updates, peer support, and resources." },
       { question: "Can the resources be updated later?", answer: "Yes. The website is built from editable shared content, so text, cards, links, reviews, and resources can be changed easily." }
     ]
@@ -138,11 +138,15 @@ window.DUMargContent = {
     }
   },
   home: {
+    accommodationBanner: {
+      title: "Looking for a PG or flat near DU? Find verified accommodation here",
+      cta: "Explore Accommodation"
+    },
     hero: {
       eyebrow: "Delhi University guidance, simplified",
       title: "Find your way through DU admissions and college life.",
       text: "DU Marg helps Delhi University aspirants and students choose smarter, prepare better, and feel less lost from CUET to campus life.",
-      primaryCta: "Accommodations",
+      primaryCta: "Find PG/Accommodation",
       secondaryCta: "Explore Toolkit",
       badge: "North Campus context. Student-first clarity.",
       stats: [
@@ -192,6 +196,11 @@ window.DUMargContent = {
         { quote: "DU Marg did not just say which college is best. It helped me understand what is best for me.", name: "Kabir", detail: "BA Programme student" },
         { quote: "I had so many small doubts about admissions and campus life. DU Marg made the process feel manageable.", name: "Ananya", detail: "DU aspirant" }
       ]
+    },
+    accommodationCta: {
+      title: "Still searching for a PG or flat? We have got you covered!",
+      text: "Tell us your college, campus and budget. DU Marg will help you find verified accommodation options that fit your needs.",
+      cta: "Browse Accommodation"
     }
   },
   about: {
