@@ -116,7 +116,6 @@
       gender: String(formData.get("gender") || "").trim(),
       phone_number: String(formData.get("phone") || "").trim(),
       college_name: String(formData.get("college") || "").trim(),
-      campus: campusValue,
       referral: referralValue,
       monthly_budget: String(formData.get("budget") || "").trim(),
       additional_requirements: combinedAdditional
@@ -140,7 +139,6 @@
 
       if (!response.ok && response.status === 400) {
         const fallbackPayload = { ...payload };
-        delete fallbackPayload.campus;
         delete fallbackPayload.referral;
         const fallbackResponse = await fetch(`${supabase.url.replace(/\/$/, "")}/rest/v1/${table}`, {
           method: "POST",
@@ -330,10 +328,10 @@
       <article class="success-modal-card">
         <button class="success-modal-close" type="button" data-modal-close aria-label="Close success message">×</button>
         <span class="success-modal-icon">🏠</span>
-        <h2 id="accommodationSuccessTitle">We got u covered!!</h2>
-        <p>Our team shall contact u shortly!!</p>
+        <h2 id="accommodationSuccessTitle">${escapeHtml(data.accommodation.successTitle)}</h2>
+        <p>${escapeHtml(data.accommodation.successText)}</p>
         <p>${escapeHtml(data.accommodation.successWhatsappText)}</p>
-        <a class="btn btn-primary accommodation-highlight" href="${escapeHtml(data.links.whatsapp)}" target="_blank" rel="noopener">${escapeHtml(data.accommodation.successWhatsappCta)}</a>
+        <a class="btn btn-primary accommodation-highlight" href="${escapeHtml(data.accommodation.successWhatsappLink)}" target="_blank" rel="noopener">${escapeHtml(data.accommodation.successWhatsappCta)}</a>
       </article>
     </div>
   `;
