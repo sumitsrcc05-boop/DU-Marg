@@ -81,6 +81,7 @@ window.DUMargContent = {
       phone: "Phone Number (WhatsApp preferably)",
       college: "College Name",
       campus: "Campus",
+      referral: "Referral",
       budget: "Monthly Budget",
       additional: "Anything Else"
     },

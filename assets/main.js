@@ -97,10 +97,19 @@
     }
 
     const campusValue = String(formData.get("campus") || "").trim();
+    const referralValue = String(formData.get("referral") || "").trim();
     const additionalValue = String(formData.get("additional") || "").trim();
-    const combinedAdditional = additionalValue
-      ? `Campus: ${campusValue}\n${additionalValue}`
-      : `Campus: ${campusValue}`;
+    const additionalParts = [`Campus: ${campusValue}`];
+
+    if (referralValue) {
+      additionalParts.push(`Referral: ${referralValue}`);
+    }
+
+    if (additionalValue) {
+      additionalParts.push(additionalValue);
+    }
+
+    const combinedAdditional = additionalParts.join("\n");
 
     const payload = {
       name: String(formData.get("name") || "").trim(),
@@ -108,6 +117,7 @@
       phone_number: String(formData.get("phone") || "").trim(),
       college_name: String(formData.get("college") || "").trim(),
       campus: campusValue,
+      referral: referralValue,
       monthly_budget: String(formData.get("budget") || "").trim(),
       additional_requirements: combinedAdditional
     };
@@ -131,6 +141,7 @@
       if (!response.ok && response.status === 400) {
         const fallbackPayload = { ...payload };
         delete fallbackPayload.campus;
+        delete fallbackPayload.referral;
         const fallbackResponse = await fetch(`${supabase.url.replace(/\/$/, "")}/rest/v1/${table}`, {
           method: "POST",
           headers: {
@@ -707,6 +718,10 @@
       <label>
         ${escapeHtml(data.accommodation.fields.budget)}
         <input type="text" name="budget" placeholder="Example: ₹12,000 - ₹18,000" required>
+      </label>
+      <label>
+        ${escapeHtml(data.accommodation.fields.referral)}
+        <input type="text" name="referral" placeholder="Example: Friend, senior, Instagram, WhatsApp group">
       </label>
       <label class="form-full">
         ${escapeHtml(data.accommodation.fields.additional)}
